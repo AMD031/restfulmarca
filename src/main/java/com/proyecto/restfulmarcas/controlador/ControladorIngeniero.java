@@ -41,15 +41,12 @@ public class ControladorIngeniero
     @GetMapping
     public ResponseEntity<List<Ingeniero>> getAllIngenieros() {
         List<Ingeniero> list = servicio.getAllIngenieros();
- 
         return new ResponseEntity<List<Ingeniero>>(list, new HttpHeaders(), HttpStatus.OK);
     }
  
     @GetMapping("/{id}")
-    public ResponseEntity<Ingeniero> getIngenieroById(@PathVariable("id") Long id)
-                                                    throws RecordNotFoundException {
+    public ResponseEntity<Ingeniero> getIngenieroById(@PathVariable("id") Long id)                                           throws RecordNotFoundException {
     	Ingeniero entity = servicio.getIngenieroById(id);
- 
         return new ResponseEntity<Ingeniero>(entity, new HttpHeaders(), HttpStatus.OK);
     }
   
@@ -63,7 +60,7 @@ public class ControladorIngeniero
     @PutMapping
     public ResponseEntity<Ingeniero> UpdateIngeniero(@Valid @RequestBody Ingeniero myIngeniero)
                                                     throws RecordNotFoundException {
-    	Ingeniero updated = servicio.createIngeniero(myIngeniero);
+    	Ingeniero updated = servicio.UpdateIngeniero(myIngeniero);
         return new ResponseEntity<Ingeniero>(updated, new HttpHeaders(), HttpStatus.OK);
     }
  
