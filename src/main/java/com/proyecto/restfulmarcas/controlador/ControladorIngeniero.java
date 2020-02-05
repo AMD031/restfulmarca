@@ -11,7 +11,9 @@ package com.proyecto.restfulmarcas.controlador;
  */
 import com.proyecto.restfulmarcas.excepcion.RecordNotFoundException;
 import com.proyecto.restfulmarcas.modelo.Ingeniero;
+import com.proyecto.restfulmarcas.modelo.Marca;
 import com.proyecto.restfulmarcas.servicio.ServicioIngeniero;
+import com.proyecto.restfulmarcas.servicio.ServicioMarca;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -35,7 +37,12 @@ public class ControladorIngeniero {
 
     @Autowired
     ServicioIngeniero servicio;
+    
+    @Autowired
+    ServicioIngeniero servicioIngeniero;
+    
 
+  
     @GetMapping
     public ResponseEntity<List<Ingeniero>> getAllIngenieros() {
         List<Ingeniero> list = servicio.getAllIngenieros();
@@ -82,5 +89,14 @@ public class ControladorIngeniero {
  
         return new ResponseEntity<List<Ingeniero>>(list, new HttpHeaders(), HttpStatus.OK);
     }
+    
+    @GetMapping("/marcas/{id}")
+    public ResponseEntity<List<Marca>> getMarcasByIdIngeniero(@PathVariable("id") Long id) {
+    	List<Marca> list = servicio.getMarcasByIdIngeniero(id);
+        return new ResponseEntity<List<Marca>>(list, new HttpHeaders(), HttpStatus.OK);
+    }
+    
+    
+    
 
 }

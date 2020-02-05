@@ -8,6 +8,8 @@ package com.proyecto.restfulmarcas.servicio;
 import com.proyecto.restfulmarcas.excepcion.RecordNotFoundException;
 import com.proyecto.restfulmarcas.modelo.Ingeniero;
 import com.proyecto.restfulmarcas.modelo.Marca;
+import com.proyecto.restfulmarcas.modelo.Marca;
+import com.proyecto.restfulmarcas.repositorio.RepositorioIngeniero;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -25,33 +27,28 @@ import java.util.Optional;
  
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
-import com.proyecto.restfulmarcas.repositorio.RepositorioIngeniero;
 import com.proyecto.restfulmarcas.repositorio.RepositorioMarca;
 
 @Service
-public class ServicioIngeniero {
+public class ServicioMarca {
      
   @Autowired
-  RepositorioIngeniero repositorio;
-  
-  @Autowired
-  RepositorioMarca repositorioMarca;
-  
-  
-  public List<Ingeniero> getAllIngenieros()
+  RepositorioMarca repositorio;
+
+  public List<Marca> getAllMarcas()
    {
-        List<Ingeniero> ingenieroList = repositorio.findAll();
+        List<Marca> ingenieroList = repositorio.findAll();
          
         if(ingenieroList.size() > 0) {
             return ingenieroList;
         } else {
-            return new ArrayList<Ingeniero>();
+            return new ArrayList<Marca>();
         }
     }
      
-    public Ingeniero getIngenieroById(Long id) throws RecordNotFoundException
+    public Marca getMarcaById(Long id) throws RecordNotFoundException
     {
-        Optional<Ingeniero> ingeniero = repositorio.findById(id);
+        Optional<Marca> ingeniero = repositorio.findById(id);
          
         if(ingeniero.isPresent()) {
             return ingeniero.get();
@@ -59,23 +56,23 @@ public class ServicioIngeniero {
             throw new RecordNotFoundException("No ingeniero record exist for given id",id);
         }
     }
-    public Ingeniero createIngeniero(Ingeniero entity){
+    public Marca createMarca(Marca entity){
         entity = repositorio.save(entity);
         return entity;
     }
-    public Ingeniero UpdateIngeniero(Ingeniero entity) throws RecordNotFoundException
+    public Marca UpdateMarca(Marca entity) throws RecordNotFoundException
     {
     	    	
     	if(entity.getId()!=null)
     	{
-    	  Optional<Ingeniero> ingeniero = repositorio.findById(entity.getId());
+    	  Optional<Marca> ingeniero = repositorio.findById(entity.getId());
         
             if(ingeniero.isPresent())
             {
-                Ingeniero newEntity = ingeniero.get();
+                Marca newEntity = ingeniero.get();
                 //newEntity.setId(entity.getId());
                 newEntity.setNombre(entity.getNombre());
-                newEntity.setDni(entity.getDni());
+                newEntity.setPais(entity.getPais());
                 newEntity = repositorio.save(newEntity);
                 
                 return newEntity;
@@ -87,9 +84,9 @@ public class ServicioIngeniero {
     	}	    
  }
      
-    public void deleteIngenieroById(Long id) throws RecordNotFoundException
+    public void deleteMarcaById(Long id) throws RecordNotFoundException
     {
-        Optional<Ingeniero> ingeniero = repositorio.findById(id);
+        Optional<Marca> ingeniero = repositorio.findById(id);
          
         if(ingeniero.isPresent())
         {
@@ -99,35 +96,8 @@ public class ServicioIngeniero {
         }
     }
 
-    public List<Ingeniero> getIngenieroByName(String nombre) {
-        List<Ingeniero> ingenieros = repositorio.getIngenieroByName(nombre);
-         
-        if(ingenieros.size() > 0) {
-            return ingenieros;
-        } else {
-            return new ArrayList<Ingeniero>();
-        }
-    }
+  
 
-    public List<Ingeniero> getIngenieroByDNI(String dni) {
-        List<Ingeniero> ingenieros = repositorio.getIngenieroByDNI(dni);
-         
-        if(ingenieros.size() > 0) {
-            return ingenieros;
-        } else {
-            return new ArrayList<Ingeniero>();
-        }
-    }
-
-    public List<Marca> getMarcasByIdIngeniero(Long id) {
-        List<Marca> itemList = repositorio.getMarcasByIdIngeniero(id);
-         
-        if(itemList.size() > 0) {
-            return itemList;
-        } else {
-            return new ArrayList<Marca>();
-        }
-    }
     
 
 }

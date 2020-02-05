@@ -22,24 +22,68 @@ import javax.validation.constraints.NotBlank;
  * @author Antonio Martinez Diaz
  */
 
-//@Entity
-//@Table(name = "marca")
+@Entity
+@Table(name = "marca")
 public class Marca {
-//    @Id
-//    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private int id;
+
+  
     
-//    @NotBlank
-//    @Column(name = "nombre", length = 256)
+    
+    @Id
+    @GeneratedValue(strategy = GenerationType.AUTO)
+    private Long id;
+    
+    @NotBlank
+    @Column(name = "nombre", length = 256)
     private String nombre;
    
     
-//    @NotBlank
-//    @Column(name = "pais", length = 256)
+    @NotBlank
+    @Column(name = "pais", length = 256)
     private String pais;
     
-//    @OneToMany(mappedBy = "marca", cascade = CascadeType.ALL)
-//    Set<Ingeniero> ingenieros;
+    @OneToMany(mappedBy = "marca", cascade = CascadeType.ALL)
+    Set<Ingeniero> ingenieros;
+
+    public Long getId() {
+        return id;
+    }
+
+    public void setId(Long id) {
+        this.id = id;
+    }
+
+
+    public String getNombre() {
+        return nombre;
+    }
+
+    public void setNombre(String nombre) {
+        this.nombre = nombre;
+    }
+
+    public String getPais() {
+        return pais;
+    }
+
+    public void setPais(String pais) {
+        this.pais = pais;
+    }
+
+    public Set<Ingeniero> getIngenieros() {
+        return ingenieros;
+    }
+
+    public void setIngenieros(Set<Ingeniero> ingenieros) {
+        this.ingenieros = ingenieros;
+    }
+
+    @Override
+    public String toString() {
+        return "Marca{" + "id=" + id + ", nombre=" + nombre + ", pais=" + pais + '}';
+    }
+
+   
     
     
     

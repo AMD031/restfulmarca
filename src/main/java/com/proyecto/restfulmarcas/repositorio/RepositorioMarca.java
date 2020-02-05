@@ -17,19 +17,10 @@ import org.springframework.stereotype.Repository;
  *
  * @author Antonio Martinez Diaz
  */
-public interface RepositorioIngeniero
-        extends JpaRepository<Ingeniero, Long> {
+public interface RepositorioMarca
+        extends JpaRepository<Marca, Long> {
 
-    @Query(value = "SELECT * FROM ingeniero AS i WHERE i.nombre LIKE %?1%", nativeQuery = true)
-    public List<Ingeniero> getIngenieroByName(String nombre);
-
-    
-    @Query(value = "SELECT * FROM ingeniero AS i WHERE i.dni LIKE %?1%", nativeQuery = true)
-    public List<Ingeniero> getIngenieroByDNI(String dni);
-
-    @Query(value = "SELECT id as idx FROM marca as m INNER JOIN ingeniero as i ON i.id_marca = m.id where i.idx =?", nativeQuery = true)
-    public List<Marca> getMarcasByIdIngeniero(Long idx);
-    
+ 
     
     
     

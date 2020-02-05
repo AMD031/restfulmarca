@@ -43,13 +43,12 @@ public class Ingeniero {
     @Column(name = "dni", length = 256)
     private String dni;
     
-    @NotNull
-    @Column(name = " id_marca", length = 256)
-    private Long idmarca;
+   
     
-//    @ManyToOne
-//    @JoinColumn(name="id_marca")
-//    private Marca marca;
+    
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name="id_marca")
+    private Marca marca;
     
 
 //    @JoinTable(       
@@ -85,32 +84,16 @@ public class Ingeniero {
         this.dni = dni;
     }
 
-    public Long getIdmarca() {
-        return idmarca;
-    }
+ 
 
-    public void setIdmarca(Long idmarca) {
-        this.idmarca = idmarca;
-    }
-
-//    public Marca getMarca() {
-//        return marca;
-//    }
-//
-//    public void setMarca(Marca marca) {
-//        this.marca = marca;
-//    }
-//    
     
-    
-    
-    
-
     @Override
     public String toString() {
-        return "Ingeniero{" + "id=" + id + ", nombre=" + nombre + ", dni=" + dni + ", idmarca=" + idmarca + '}';
+        return "Ingeniero{" + "id=" + id + ", nombre=" + nombre + ", dni=" + dni + ", marca=" + marca.getId() + '}';
     }
+    
 
+ 
    
     
 
