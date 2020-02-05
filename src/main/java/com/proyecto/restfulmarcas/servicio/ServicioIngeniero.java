@@ -91,9 +91,29 @@ public class ServicioIngeniero {
             throw new RecordNotFoundException("No ingeniero record exist for given id",id);
         }
     }
+
+    public List<Ingeniero> getIngenieroByName(String nombre) {
+        List<Ingeniero> itemList = repositorio.getIngenieroByName(nombre);
+         
+        if(itemList.size() > 0) {
+            return itemList;
+        } else {
+            return new ArrayList<Ingeniero>();
+        }
+    }
+
+    public List<Ingeniero> getIngenieroByDNI(String dni) {
+        List<Ingeniero> itemList = repositorio.getIngenieroByDNI(dni);
+         
+        if(itemList.size() > 0) {
+            return itemList;
+        } else {
+            return new ArrayList<Ingeniero>();
+        }
+    }
     
     
-    
+   
     
   
 }

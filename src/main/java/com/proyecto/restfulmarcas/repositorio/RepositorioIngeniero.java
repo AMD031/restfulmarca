@@ -5,7 +5,6 @@
  */
 package com.proyecto.restfulmarcas.repositorio;
 
-
 import com.proyecto.restfulmarcas.modelo.Ingeniero;
 import java.util.List;
 
@@ -18,5 +17,12 @@ import org.springframework.stereotype.Repository;
  * @author Antonio Martinez Diaz
  */
 public interface RepositorioIngeniero
-        extends JpaRepository<Ingeniero, Long> {  
+        extends JpaRepository<Ingeniero, Long> {
+
+    @Query(value = "SELECT * FROM ingeniero AS i WHERE i.nombre LIKE %?1%", nativeQuery = true)
+    public List<Ingeniero> getIngenieroByName(String nombre);
+
+    
+    @Query(value = "SELECT * FROM ingeniero AS i WHERE i.dni LIKE %?1%", nativeQuery = true)
+    public List<Ingeniero> getIngenieroByDNI(String dni);
 }
