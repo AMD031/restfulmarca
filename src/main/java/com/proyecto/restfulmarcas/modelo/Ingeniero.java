@@ -5,6 +5,7 @@
  */
 package com.proyecto.restfulmarcas.modelo;
 
+import com.fasterxml.jackson.annotation.JsonBackReference;
 import java.util.Set;
 import javax.persistence.CascadeType;
 import javax.persistence.Column;
@@ -48,16 +49,18 @@ public class Ingeniero {
     
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name="id_marca")
+    @JsonBackReference
     private Marca marca;
     
 
-//    @JoinTable(       
-//    name = "ingeniero-prototipo", 
-//    joinColumns = @JoinColumn(name = "id_ingeniero"), 
-//    inverseJoinColumns = @JoinColumn(name = "id_prototipo"))
-//    @ManyToMany(cascade = CascadeType.ALL, fetch = FetchType.LAZY)
-//    Set<Prototipo>prototipos;
-//    
+    @JoinTable(       
+    name = "ingeniero-prototipo", 
+    joinColumns = @JoinColumn(name = "id_ingeniero" ), 
+    inverseJoinColumns = @JoinColumn(name = "id_prototipo"))
+    @JsonBackReference   
+    @ManyToMany(cascade = CascadeType.ALL, fetch = FetchType.LAZY)
+    Set<Prototipo>prototipos;
+    
     
 
     public Long getId() {
@@ -84,6 +87,14 @@ public class Ingeniero {
         this.dni = dni;
     }
 
+    public Set<Prototipo> getPrototipos() {
+        return prototipos;
+    }
+
+    public void setPrototipos(Set<Prototipo> prototipos) {
+        this.prototipos = prototipos;
+    }
+
  
 
     
@@ -91,7 +102,15 @@ public class Ingeniero {
     public String toString() {
         return "Ingeniero{" + "id=" + id + ", nombre=" + nombre + ", dni=" + dni + ", marca=" + marca.getId() + '}';
     }
-    
+
+//    public Marca getMarca() {
+//        return marca;
+//    }
+//
+//    public void setMarca(Marca marca) {
+//        this.marca = marca;
+//    }
+//    
 
  
    

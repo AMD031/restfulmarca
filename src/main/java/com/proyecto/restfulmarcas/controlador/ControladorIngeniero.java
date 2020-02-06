@@ -14,6 +14,7 @@ import com.proyecto.restfulmarcas.modelo.Ingeniero;
 import com.proyecto.restfulmarcas.modelo.Marca;
 import com.proyecto.restfulmarcas.servicio.ServicioIngeniero;
 import com.proyecto.restfulmarcas.servicio.ServicioMarca;
+import com.proyecto.restfulmarcas.servicio.ServicioPrototipo;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -39,7 +40,10 @@ public class ControladorIngeniero {
     ServicioIngeniero servicio;
     
     @Autowired
-    ServicioIngeniero servicioIngeniero;
+    ServicioPrototipo prototipo;
+    
+    @Autowired
+    ServicioMarca servicioMarca;
     
 
   
@@ -90,6 +94,8 @@ public class ControladorIngeniero {
         return new ResponseEntity<List<Ingeniero>>(list, new HttpHeaders(), HttpStatus.OK);
     }
     
+    
+    /*
     @GetMapping("/marcas/{id}")
     public ResponseEntity<List<Marca>> getMarcasByIdIngeniero(@PathVariable("id") Long id) {
     	List<Marca> list = servicio.getMarcasByIdIngeniero(id);
@@ -97,6 +103,6 @@ public class ControladorIngeniero {
     }
     
     
-    
+    */
 
 }

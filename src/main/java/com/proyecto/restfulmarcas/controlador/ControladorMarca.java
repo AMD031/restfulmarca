@@ -43,6 +43,8 @@ public class ControladorMarca {
    @Autowired
     ServicioMarca servicio;
 
+   @Autowired
+    ServicioIngeniero ingeniero;
  
    
    

@@ -33,10 +33,19 @@ public class ServicioIngeniero {
      
   @Autowired
   RepositorioIngeniero repositorio;
+ 
+    
+  @Autowired
+  RepositorioIngeniero prototipo;
   
   @Autowired
   RepositorioMarca repositorioMarca;
   
+  
+  /*
+  @Autowired
+  RepositorioMarca repositorioMarca;
+  */
   
   public List<Ingeniero> getAllIngenieros()
    {

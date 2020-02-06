@@ -5,6 +5,7 @@
  */
 package com.proyecto.restfulmarcas.modelo;
 
+import com.fasterxml.jackson.annotation.JsonBackReference;
 import java.util.Set;
 import javax.persistence.CascadeType;
 import javax.persistence.Column;
@@ -43,6 +44,7 @@ public class Marca {
     private String pais;
     
     @OneToMany(mappedBy = "marca", cascade = CascadeType.ALL)
+    @JsonBackReference        
     Set<Ingeniero> ingenieros;
 
     public Long getId() {

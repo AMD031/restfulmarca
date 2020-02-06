@@ -35,12 +35,18 @@ public class ServicioMarca {
   @Autowired
   RepositorioMarca repositorio;
 
+  
+  @Autowired
+  RepositorioIngeniero repositorioIngeniero;
+  
+
+          
   public List<Marca> getAllMarcas()
    {
-        List<Marca> ingenieroList = repositorio.findAll();
+        List<Marca> marcaList = repositorio.findAll();
          
-        if(ingenieroList.size() > 0) {
-            return ingenieroList;
+        if(marcaList.size() > 0) {
+            return marcaList;
         } else {
             return new ArrayList<Marca>();
         }
@@ -48,12 +54,12 @@ public class ServicioMarca {
      
     public Marca getMarcaById(Long id) throws RecordNotFoundException
     {
-        Optional<Marca> ingeniero = repositorio.findById(id);
+        Optional<Marca> marca = repositorio.findById(id);
          
-        if(ingeniero.isPresent()) {
-            return ingeniero.get();
+        if(marca.isPresent()) {
+            return marca.get();
         } else {
-            throw new RecordNotFoundException("No ingeniero record exist for given id",id);
+            throw new RecordNotFoundException("No marca record exist for given id",id);
         }
     }
     public Marca createMarca(Marca entity){
@@ -65,11 +71,11 @@ public class ServicioMarca {
     	    	
     	if(entity.getId()!=null)
     	{
-    	  Optional<Marca> ingeniero = repositorio.findById(entity.getId());
+    	  Optional<Marca> marca = repositorio.findById(entity.getId());
         
-            if(ingeniero.isPresent())
+            if(marca.isPresent())
             {
-                Marca newEntity = ingeniero.get();
+                Marca newEntity = marca.get();
                 //newEntity.setId(entity.getId());
                 newEntity.setNombre(entity.getNombre());
                 newEntity.setPais(entity.getPais());
@@ -77,22 +83,22 @@ public class ServicioMarca {
                 
                 return newEntity;
             } else {
-                throw new RecordNotFoundException("ingeniero not found",entity.getId());
+                throw new RecordNotFoundException("marca not found",entity.getId());
             }
         }else{
-    		throw new RecordNotFoundException("No id of ingeniero given",0l);
+    		throw new RecordNotFoundException("No id of marca given",0l);
     	}	    
  }
      
     public void deleteMarcaById(Long id) throws RecordNotFoundException
     {
-        Optional<Marca> ingeniero = repositorio.findById(id);
+        Optional<Marca> marca = repositorio.findById(id);
          
-        if(ingeniero.isPresent())
+        if(marca.isPresent())
         {
             repositorio.deleteById(id);
         } else {
-            throw new RecordNotFoundException("No ingeniero record exist for given id",id);
+            throw new RecordNotFoundException("No marca record exist for given id",id);
         }
     }
 
