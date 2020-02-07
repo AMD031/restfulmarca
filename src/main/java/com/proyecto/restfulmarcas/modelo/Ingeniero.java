@@ -33,8 +33,9 @@ import org.hibernate.annotations.ManyToAny;
 @Table(name = "ingeniero")
 public class Ingeniero {
     @Id
+    @Column(name = "id_ingeniero")
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long id;
+    private Long id_ingeniero;
     
     @NotBlank
     @Column(name = "nombre", length = 256)
@@ -44,31 +45,26 @@ public class Ingeniero {
     @Column(name = "dni", length = 256)
     private String dni;
     
-   
-    
-    
     @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name="id_marca")
+    @JoinColumn(name="id_marca_fk")
     @JsonBackReference
     private Marca marca;
     
 
     @JoinTable(       
     name = "ingeniero-prototipo", 
-    joinColumns = @JoinColumn(name = "id_ingeniero" ), 
-    inverseJoinColumns = @JoinColumn(name = "id_prototipo"))
+    joinColumns = @JoinColumn(name = "id_ingeniero_fk" ), 
+    inverseJoinColumns = @JoinColumn(name = "id_prototipo_fk"))
     @JsonBackReference   
     @ManyToMany(cascade = CascadeType.ALL, fetch = FetchType.LAZY)
     Set<Prototipo>prototipos;
-    
-    
 
-    public Long getId() {
-        return id;
+    public Long getId_ingeniero() {
+        return id_ingeniero;
     }
 
-    public void setId(Long id) {
-        this.id = id;
+    public void setId_ingeniero(Long id_ingeniero) {
+        this.id_ingeniero = id_ingeniero;
     }
 
     public String getNombre() {
@@ -95,23 +91,18 @@ public class Ingeniero {
         this.prototipos = prototipos;
     }
 
- 
+    public Marca getMarca() {
+        return marca;
+    }
 
+    public void setMarca(Marca marca) {
+        this.marca = marca;
+    }
     
     @Override
     public String toString() {
-        return "Ingeniero{" + "id=" + id + ", nombre=" + nombre + ", dni=" + dni + ", marca=" + marca.getId() + '}';
+        return "Ingeniero{" + "id=" + id_ingeniero + ", nombre=" + nombre + ", dni=" + dni + ", marca=" + marca.getId_marca()+ '}';
     }
-
-//    public Marca getMarca() {
-//        return marca;
-//    }
-//
-//    public void setMarca(Marca marca) {
-//        this.marca = marca;
-//    }
-//    
-
  
    
     

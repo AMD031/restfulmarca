@@ -27,16 +27,16 @@ import javax.validation.constraints.NotBlank;
 @Table(name = "marca")
 public class Marca {
 
-  
-    
+   
     
     @Id
+    @Column(name = "id_marca")
     @GeneratedValue(strategy = GenerationType.AUTO)
-    private Long id;
+    private Long id_marca;
     
     @NotBlank
-    @Column(name = "nombre", length = 256)
-    private String nombre;
+    @Column(name = "nombremarca", length = 256)
+    private String nombreMarca;
    
     
     @NotBlank
@@ -47,22 +47,23 @@ public class Marca {
     @JsonBackReference        
     Set<Ingeniero> ingenieros;
 
-    public Long getId() {
-        return id;
-    }
-
-    public void setId(Long id) {
-        this.id = id;
+    public Long getId_marca() {
+        return id_marca;
     }
 
 
-    public String getNombre() {
-        return nombre;
+
+    public String getNombreMarca() {
+        return nombreMarca;
     }
 
-    public void setNombre(String nombre) {
-        this.nombre = nombre;
+    public void setNombreMarca(String nombreMarca) {
+        this.nombreMarca = nombreMarca;
     }
+
+   
+
+
 
     public String getPais() {
         return pais;
@@ -82,7 +83,7 @@ public class Marca {
 
     @Override
     public String toString() {
-        return "Marca{" + "id=" + id + ", nombre=" + nombre + ", pais=" + pais + '}';
+        return "Marca{" + "id=" + id_marca + ", nombre=" + nombreMarca + ", pais=" + pais + '}';
     }
 
    

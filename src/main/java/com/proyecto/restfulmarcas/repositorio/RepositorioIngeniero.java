@@ -5,9 +5,12 @@
  */
 package com.proyecto.restfulmarcas.repositorio;
 
+import com.proyecto.restfulmarcas.interfaces.IMarca;
+import com.proyecto.restfulmarcas.interfaces.IPrototipo;
 import com.proyecto.restfulmarcas.modelo.Ingeniero;
 import com.proyecto.restfulmarcas.modelo.Marca;
 import java.util.List;
+import javax.persistence.NamedQuery;
 
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
@@ -26,9 +29,15 @@ public interface RepositorioIngeniero
     
     @Query(value = "SELECT * FROM ingeniero AS i WHERE i.dni LIKE %?1%", nativeQuery = true)
     public List<Ingeniero> getIngenieroByDNI(String dni);
+    
+    
+    @Query(value = "SELECT m.id_marca, m.pais, m.nombreMarca FROM marca m INNER JOIN ingeniero i on m.id_marca = i.id_marca_fk WHERE i.id_ingeniero = ?" ,nativeQuery = true)
+    public List<IMarca> getMarcasByIdIngeniero(Long id);
 
-    @Query(value = "SELECT id as idx FROM marca as m INNER JOIN ingeniero as i ON i.id_marca = m.id where i.idx =?", nativeQuery = true)
-    public List<Marca> getMarcasByIdIngeniero(Long idx);
+    @Query(value = "SELECT p.id_prototipo,p.nombreClave,p.descripcion FROM prototipo p INNER JOIN ingeniero_prototipo ip on p.id_prototipo = ip.id_prototipo_fk INNER JOIN\n" +
+    "ingeniero i on i.id_ingeniero = ip.id_ingeniero_fk WHERE i.id_ingeniero = ?",nativeQuery = true)
+    public List<IPrototipo> getPrototipoByIdIngeniero(Long id);
+
     
     
     

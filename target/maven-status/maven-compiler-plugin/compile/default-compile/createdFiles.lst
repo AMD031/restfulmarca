@@ -1,0 +1,17 @@
+com\proyecto\restfulmarcas\controlador\ControladorIngeniero.class
+com\proyecto\restfulmarcas\interfaces\IMarca.class
+com\proyecto\restfulmarcas\controlador\ControladorMarca.class
+com\proyecto\restfulmarcas\controlador\ControladorPrototipo.class
+com\proyecto\restfulmarcas\AppMain.class
+com\proyecto\restfulmarcas\servicio\ServicioIngeniero.class
+com\proyecto\restfulmarcas\repositorio\RepositorioIngeniero.class
+com\proyecto\restfulmarcas\servicio\ServicioMarca.class
+com\proyecto\restfulmarcas\interfaces\IIngeniero.class
+com\proyecto\restfulmarcas\interfaces\IPrototipo.class
+com\proyecto\restfulmarcas\modelo\Prototipo.class
+com\proyecto\restfulmarcas\servicio\ServicioPrototipo.class
+com\proyecto\restfulmarcas\modelo\Marca.class
+com\proyecto\restfulmarcas\repositorio\RepositorioMarca.class
+com\proyecto\restfulmarcas\repositorio\RepositorioPrototipo.class
+com\proyecto\restfulmarcas\modelo\Ingeniero.class
+com\proyecto\restfulmarcas\excepcion\RecordNotFoundException.class

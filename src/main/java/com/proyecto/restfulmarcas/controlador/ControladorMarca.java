@@ -10,6 +10,8 @@ package com.proyecto.restfulmarcas.controlador;
  * @author Antonio Martinez Diaz
  */
 import com.proyecto.restfulmarcas.excepcion.RecordNotFoundException;
+import com.proyecto.restfulmarcas.interfaces.IIngeniero;
+import com.proyecto.restfulmarcas.interfaces.IMarca;
 import com.proyecto.restfulmarcas.modelo.Marca;
 import com.proyecto.restfulmarcas.modelo.Marca;
 import com.proyecto.restfulmarcas.repositorio.RepositorioIngeniero;
@@ -79,6 +81,19 @@ public class ControladorMarca {
         servicio.deleteMarcaById(id);
         return HttpStatus.ACCEPTED;
     }
+    
+    @GetMapping("/bucarIngenierosPorIdmarca/{id}")
+    public ResponseEntity<List<IIngeniero>> getMarcasByIdIngeniero(@PathVariable("id") Long id) {
+    	List<IIngeniero> list = servicio.getIngenierosByIdMarca(id);
+        return new ResponseEntity<List<IIngeniero>>(list, new HttpHeaders(), HttpStatus.OK);
+    }
+    
+    @GetMapping("/buscarIngenierosPormarca/{nombreMarca}")
+    public ResponseEntity<List<IIngeniero>> getMarcasByIdIngeniero(@PathVariable("nombreMarca") String nombreMarca) {
+    	List<IIngeniero> list = servicio.getIngenierosByNameMarca(nombreMarca);
+        return new ResponseEntity<List<IIngeniero>>(list, new HttpHeaders(), HttpStatus.OK);
+    }
+    
     
     
  

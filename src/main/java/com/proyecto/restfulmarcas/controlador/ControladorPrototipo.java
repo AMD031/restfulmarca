@@ -77,14 +77,18 @@ public class ControladorPrototipo {
     }
     
     
-    /*
-    @GetMapping("/buscarnombre/{nombre}")
-    public ResponseEntity<List<Prototipo>> getPrototipoByName(@PathVariable("nombre") String nombre) {
-    	List<Prototipo> list = servicio.getPrototipoByName(nombre);
- 
+    @GetMapping("/buscarPrototipoPorNombre/{nombreclave}")
+    public ResponseEntity<List<Prototipo>> getPrototipoByName(@PathVariable("nombreclave") String nombreClave) {
+    	List<Prototipo> list = servicio.getPrototipoByName(nombreClave);
+        
         return new ResponseEntity<List<Prototipo>>(list, new HttpHeaders(), HttpStatus.OK);
     }
     
+   
+    
+    
+    
+    /*
     @GetMapping("/buscardni/{dni}")
     public ResponseEntity<List<Prototipo>> getPrototipoByDNI(@PathVariable("dni") String dni) {
     	List<Prototipo> list = servicio.getPrototipoByDNI(dni);
@@ -97,9 +101,9 @@ public class ControladorPrototipo {
     	List<Marca> list = servicio.getMarcasByIdPrototipo(id);
         return new ResponseEntity<List<Marca>>(list, new HttpHeaders(), HttpStatus.OK);
     }
-    
-    
     */
+    
+    
 
 }
 

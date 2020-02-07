@@ -21,7 +21,7 @@ import org.springframework.stereotype.Repository;
 public interface RepositorioPrototipo 
         extends JpaRepository<Prototipo, Long>{
     
-    
-    
+    @Query(value = "SELECT * FROM prototipo AS p WHERE p.nombreClave LIKE %?1%", nativeQuery = true)
+    public List<Prototipo> getPrototipoByName(String nombre);
     
 }

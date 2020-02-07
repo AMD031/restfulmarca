@@ -27,8 +27,9 @@ import javax.validation.constraints.NotBlank;
 public class Prototipo {
   
    @Id
+   @Column(name = "id_prototipo")
    @GeneratedValue(strategy = GenerationType.IDENTITY)
-   private Long id;
+   private Long id_prototipo;
    
    @NotBlank
    @Column(name = "nombreclave", length = 256)
@@ -36,19 +37,19 @@ public class Prototipo {
    
    @NotBlank
    @Column(name = "descripcion", length = 256)
-   private String Descripcion;
+   private String descripcion;
      
   
    @ManyToMany(mappedBy = "prototipos", fetch = FetchType.LAZY)      
    @JsonBackReference            
    Set<Ingeniero>ingenieros ;
 
-    public Long getId() {
-        return id;
+    public Long getId_prototipo() {
+        return id_prototipo;
     }
 
-    public void setId(Long id) {
-        this.id = id;
+    public void setId_prototipo(Long id_prototipo) {
+        this.id_prototipo = id_prototipo;
     }
 
     public String getNombreClave() {
@@ -60,11 +61,11 @@ public class Prototipo {
     }
 
     public String getDescripcion() {
-        return Descripcion;
+        return descripcion;
     }
 
     public void setDescripcion(String Descripcion) {
-        this.Descripcion = Descripcion;
+        this.descripcion = Descripcion;
     }
 
     public Set<Ingeniero> getIngenieros() {

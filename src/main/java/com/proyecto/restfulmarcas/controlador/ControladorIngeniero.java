@@ -10,6 +10,8 @@ package com.proyecto.restfulmarcas.controlador;
  * @author Antonio Martinez Diaz
  */
 import com.proyecto.restfulmarcas.excepcion.RecordNotFoundException;
+import com.proyecto.restfulmarcas.interfaces.IMarca;
+import com.proyecto.restfulmarcas.interfaces.IPrototipo;
 import com.proyecto.restfulmarcas.modelo.Ingeniero;
 import com.proyecto.restfulmarcas.modelo.Marca;
 import com.proyecto.restfulmarcas.servicio.ServicioIngeniero;
@@ -95,14 +97,23 @@ public class ControladorIngeniero {
     }
     
     
-    /*
-    @GetMapping("/marcas/{id}")
-    public ResponseEntity<List<Marca>> getMarcasByIdIngeniero(@PathVariable("id") Long id) {
-    	List<Marca> list = servicio.getMarcasByIdIngeniero(id);
-        return new ResponseEntity<List<Marca>>(list, new HttpHeaders(), HttpStatus.OK);
+
+    @GetMapping("/marcaTrabajaPorId/{id}")
+    public ResponseEntity<List<IMarca>> getMarcasByIdIngeniero(@PathVariable("id") Long id) {
+    	List<IMarca> list = servicio.getMarcasByIdIngeniero(id);
+        return new ResponseEntity<List<IMarca>>(list, new HttpHeaders(), HttpStatus.OK);
     }
     
     
-    */
+    
+    @GetMapping("/prototipoIngeniroPorId/{id}")
+    public ResponseEntity<List<IPrototipo>> getPrototipoByIdIngeniero(@PathVariable("id") Long id) {
+    	List<IPrototipo> list = servicio.getPrototipoByIdIngeniero(id);
+        return new ResponseEntity<List<IPrototipo>>(list, new HttpHeaders(), HttpStatus.OK);
+    }
+    
+    
+    
+  
 
 }

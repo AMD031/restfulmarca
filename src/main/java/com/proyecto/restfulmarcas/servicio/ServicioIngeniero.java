@@ -6,6 +6,8 @@
 package com.proyecto.restfulmarcas.servicio;
 
 import com.proyecto.restfulmarcas.excepcion.RecordNotFoundException;
+import com.proyecto.restfulmarcas.interfaces.IMarca;
+import com.proyecto.restfulmarcas.interfaces.IPrototipo;
 import com.proyecto.restfulmarcas.modelo.Ingeniero;
 import com.proyecto.restfulmarcas.modelo.Marca;
 
@@ -27,26 +29,20 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import com.proyecto.restfulmarcas.repositorio.RepositorioIngeniero;
 import com.proyecto.restfulmarcas.repositorio.RepositorioMarca;
+import javax.transaction.Transactional;
 
 @Service
 public class ServicioIngeniero {
      
   @Autowired
   RepositorioIngeniero repositorio;
- 
-    
+
   @Autowired
   RepositorioIngeniero prototipo;
   
   @Autowired
   RepositorioMarca repositorioMarca;
-  
-  
-  /*
-  @Autowired
-  RepositorioMarca repositorioMarca;
-  */
-  
+
   public List<Ingeniero> getAllIngenieros()
    {
         List<Ingeniero> ingenieroList = repositorio.findAll();
@@ -68,6 +64,7 @@ public class ServicioIngeniero {
             throw new RecordNotFoundException("No ingeniero record exist for given id",id);
         }
     }
+
     public Ingeniero createIngeniero(Ingeniero entity){
         entity = repositorio.save(entity);
         return entity;
@@ -75,9 +72,9 @@ public class ServicioIngeniero {
     public Ingeniero UpdateIngeniero(Ingeniero entity) throws RecordNotFoundException
     {
     	    	
-    	if(entity.getId()!=null)
+    	if(entity.getId_ingeniero()!=null)
     	{
-    	  Optional<Ingeniero> ingeniero = repositorio.findById(entity.getId());
+    	  Optional<Ingeniero> ingeniero = repositorio.findById(entity.getId_ingeniero());
         
             if(ingeniero.isPresent())
             {
@@ -89,7 +86,7 @@ public class ServicioIngeniero {
                 
                 return newEntity;
             } else {
-                throw new RecordNotFoundException("ingeniero not found",entity.getId());
+                throw new RecordNotFoundException("ingeniero not found",entity.getId_ingeniero());
             }
         }else{
     		throw new RecordNotFoundException("No id of ingeniero given",0l);
@@ -128,15 +125,33 @@ public class ServicioIngeniero {
         }
     }
 
-    public List<Marca> getMarcasByIdIngeniero(Long id) {
-        List<Marca> itemList = repositorio.getMarcasByIdIngeniero(id);
+    public List<IMarca> getMarcasByIdIngeniero(Long id) {
+        
+            List<IMarca> marcas = repositorio.getMarcasByIdIngeniero(id);
          
-        if(itemList.size() > 0) {
-            return itemList;
+        if(marcas.size() > 0) {
+            return marcas;
         } else {
-            return new ArrayList<Marca>();
+            return new ArrayList<IMarca>();
         }
+        
+        
     }
+
+    public List<IPrototipo> getPrototipoByIdIngeniero(Long id) {
+    
+        List<IPrototipo> prototipos = repositorio.getPrototipoByIdIngeniero(id);
+         
+        if(prototipos.size() > 0) {
+            return prototipos;
+        } else {
+            return new ArrayList<IPrototipo>();
+        }
+        
+        
+    }
+
+ 
     
 
 }

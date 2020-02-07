@@ -1,6 +1,7 @@
 package com.proyecto.restfulmarcas.servicio;
 
 import com.proyecto.restfulmarcas.excepcion.RecordNotFoundException;
+import com.proyecto.restfulmarcas.interfaces.IMarca;
 import com.proyecto.restfulmarcas.modelo.Ingeniero;
 import com.proyecto.restfulmarcas.modelo.Prototipo;
 import com.proyecto.restfulmarcas.modelo.Prototipo;
@@ -60,8 +61,8 @@ public class ServicioPrototipo {
 
     public Prototipo UpdatePrototipo(Prototipo entity) throws RecordNotFoundException {
 
-        if (entity.getId() != null) {
-            Optional<Prototipo> prototipo = repositorio.findById(entity.getId());
+        if (entity.getId_prototipo()!= null) {
+            Optional<Prototipo> prototipo = repositorio.findById(entity.getId_prototipo());
 
             if (prototipo.isPresent()) {
                 Prototipo newEntity = prototipo.get();
@@ -72,7 +73,7 @@ public class ServicioPrototipo {
 
                 return newEntity;
             } else {
-                throw new RecordNotFoundException("prototipo not found", entity.getId());
+                throw new RecordNotFoundException("prototipo not found", entity.getId_prototipo());
             }
         } else {
             throw new RecordNotFoundException("No id of prototipo given", 0l);
@@ -87,6 +88,18 @@ public class ServicioPrototipo {
         } else {
             throw new RecordNotFoundException("No prototipo record exist for given id", id);
         }
+    }
+
+    public List<Prototipo> getPrototipoByName(String nombre) {
+      List<Prototipo> prototipos= repositorio.getPrototipoByName(nombre);
+         
+        if(prototipos.size() > 0) {
+            return prototipos;
+        } else {
+            return new ArrayList<Prototipo>();
+        }
+        
+        
     }
 
 }
