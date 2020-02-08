@@ -27,16 +27,29 @@ public interface RepositorioIngeniero
     public List<Ingeniero> getIngenieroByName(String nombre);
 
     
+
+    
     @Query(value = "SELECT * FROM ingeniero AS i WHERE i.dni LIKE %?1%", nativeQuery = true)
     public List<Ingeniero> getIngenieroByDNI(String dni);
     
     
     @Query(value = "SELECT m.id_marca, m.pais, m.nombreMarca FROM marca m INNER JOIN ingeniero i on m.id_marca = i.id_marca_fk WHERE i.id_ingeniero = ?" ,nativeQuery = true)
     public List<IMarca> getMarcasByIdIngeniero(Long id);
-
+    
+    @Query(value = "SELECT m.id_marca, m.pais, m.nombreMarca FROM marca m INNER JOIN ingeniero i on m.id_marca = i.id_marca_fk WHERE i.dni like %?1%" ,nativeQuery = true)
+    public List<IMarca> getMarcasByDniIngeniero(String dni);
+    
     @Query(value = "SELECT p.id_prototipo,p.nombreClave,p.descripcion FROM prototipo p INNER JOIN ingeniero_prototipo ip on p.id_prototipo = ip.id_prototipo_fk INNER JOIN\n" +
     "ingeniero i on i.id_ingeniero = ip.id_ingeniero_fk WHERE i.id_ingeniero = ?",nativeQuery = true)
     public List<IPrototipo> getPrototipoByIdIngeniero(Long id);
+  
+    @Query(value = "SELECT p.id_prototipo,p.nombreClave,p.descripcion FROM prototipo p INNER JOIN ingeniero_prototipo ip on p.id_prototipo = ip.id_prototipo_fk INNER JOIN\n" +
+    "ingeniero i on i.id_ingeniero = ip.id_ingeniero_fk WHERE i.dni like %?1%",nativeQuery = true)
+    public List<IPrototipo> getPrototipoByDniIngeniero(String dni);
+
+    
+    
+ 
 
     
     

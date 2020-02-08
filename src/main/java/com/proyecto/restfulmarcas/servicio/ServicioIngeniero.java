@@ -10,10 +10,11 @@ import com.proyecto.restfulmarcas.interfaces.IMarca;
 import com.proyecto.restfulmarcas.interfaces.IPrototipo;
 import com.proyecto.restfulmarcas.modelo.Ingeniero;
 import com.proyecto.restfulmarcas.modelo.Marca;
+import com.proyecto.restfulmarcas.modelo.Prototipo;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Optional; 
+import java.util.Optional;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -24,91 +25,102 @@ import org.springframework.stereotype.Service;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
- 
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import com.proyecto.restfulmarcas.repositorio.RepositorioIngeniero;
 import com.proyecto.restfulmarcas.repositorio.RepositorioMarca;
+import com.proyecto.restfulmarcas.repositorio.RepositorioPrototipo;
+import java.sql.Time;
 import javax.transaction.Transactional;
+import org.omg.CORBA.TIMEOUT;
 
 @Service
 public class ServicioIngeniero {
-     
-  @Autowired
-  RepositorioIngeniero repositorio;
 
-  @Autowired
-  RepositorioIngeniero prototipo;
-  
-  @Autowired
-  RepositorioMarca repositorioMarca;
+    @Autowired
+    RepositorioIngeniero repositorio;
 
-  public List<Ingeniero> getAllIngenieros()
-   {
+    @Autowired
+    RepositorioPrototipo repositorioPrototipo;
+
+    @Autowired
+    RepositorioMarca repositorioMarca;
+
+    public List<Ingeniero> getAllIngenieros() {
         List<Ingeniero> ingenieroList = repositorio.findAll();
-         
-        if(ingenieroList.size() > 0) {
+
+        if (ingenieroList.size() > 0) {
             return ingenieroList;
         } else {
             return new ArrayList<Ingeniero>();
         }
     }
-     
-    public Ingeniero getIngenieroById(Long id) throws RecordNotFoundException
-    {
+
+    public Ingeniero getIngenieroById(Long id) throws RecordNotFoundException {
         Optional<Ingeniero> ingeniero = repositorio.findById(id);
-         
-        if(ingeniero.isPresent()) {
+
+        if (ingeniero.isPresent()) {
             return ingeniero.get();
         } else {
-            throw new RecordNotFoundException("No ingeniero record exist for given id",id);
+            throw new RecordNotFoundException("No ingeniero record exist for given id", id);
         }
     }
 
-    public Ingeniero createIngeniero(Ingeniero entity){
-        entity = repositorio.save(entity);
-        return entity;
+//    public Ingeniero createIngeniero(Ingeniero entity){
+//        //entity = repositorio.save(entity);
+//        return entity;
+//    }
+//    
+    @Transactional()
+    public Ingeniero createIngeniero(Long id_marca, Ingeniero entity) {
+        Optional<Marca> marca = repositorioMarca.findById(id_marca);
+        if (marca.isPresent()) {
+            Marca marcaEditada = marca.get();
+            entity.setMarca(marcaEditada);
+            entity = repositorio.save(entity);
+            marcaEditada.addIngeniero(entity);
+            return entity;
+        } else {
+            throw new RecordNotFoundException("marca not found", id_marca);
+        }
     }
-    public Ingeniero UpdateIngeniero(Ingeniero entity) throws RecordNotFoundException
-    {
-    	    	
-    	if(entity.getId_ingeniero()!=null)
-    	{
-    	  Optional<Ingeniero> ingeniero = repositorio.findById(entity.getId_ingeniero());
-        
-            if(ingeniero.isPresent())
-            {
+
+    public Ingeniero UpdateIngeniero(Ingeniero entity) throws RecordNotFoundException {
+
+        if (entity.getId_ingeniero() != null) {
+            Optional<Ingeniero> ingeniero = repositorio.findById(entity.getId_ingeniero());
+
+            if (ingeniero.isPresent()) {
                 Ingeniero newEntity = ingeniero.get();
                 //newEntity.setId(entity.getId());
                 newEntity.setNombre(entity.getNombre());
                 newEntity.setDni(entity.getDni());
                 newEntity = repositorio.save(newEntity);
-                
+
                 return newEntity;
             } else {
-                throw new RecordNotFoundException("ingeniero not found",entity.getId_ingeniero());
+                throw new RecordNotFoundException("ingeniero not found", entity.getId_ingeniero());
             }
-        }else{
-    		throw new RecordNotFoundException("No id of ingeniero given",0l);
-    	}	    
- }
-     
-    public void deleteIngenieroById(Long id) throws RecordNotFoundException
-    {
+        } else {
+            throw new RecordNotFoundException("No id of ingeniero given", 0l);
+        }
+    }
+
+    public void deleteIngenieroById(Long id) throws RecordNotFoundException {
         Optional<Ingeniero> ingeniero = repositorio.findById(id);
-         
-        if(ingeniero.isPresent())
-        {
+
+        if (ingeniero.isPresent()) {
             repositorio.deleteById(id);
         } else {
-            throw new RecordNotFoundException("No ingeniero record exist for given id",id);
+            throw new RecordNotFoundException("No ingeniero record exist for given id", id);
         }
     }
 
     public List<Ingeniero> getIngenieroByName(String nombre) {
         List<Ingeniero> ingenieros = repositorio.getIngenieroByName(nombre);
-         
-        if(ingenieros.size() > 0) {
+
+        if (ingenieros.size() > 0) {
             return ingenieros;
         } else {
             return new ArrayList<Ingeniero>();
@@ -117,8 +129,8 @@ public class ServicioIngeniero {
 
     public List<Ingeniero> getIngenieroByDNI(String dni) {
         List<Ingeniero> ingenieros = repositorio.getIngenieroByDNI(dni);
-         
-        if(ingenieros.size() > 0) {
+
+        if (ingenieros.size() > 0) {
             return ingenieros;
         } else {
             return new ArrayList<Ingeniero>();
@@ -126,39 +138,92 @@ public class ServicioIngeniero {
     }
 
     public List<IMarca> getMarcasByIdIngeniero(Long id) {
-        
-            List<IMarca> marcas = repositorio.getMarcasByIdIngeniero(id);
-         
-        if(marcas.size() > 0) {
+
+        List<IMarca> marcas = repositorio.getMarcasByIdIngeniero(id);
+
+        if (marcas.size() > 0) {
             return marcas;
         } else {
             return new ArrayList<IMarca>();
         }
-        
-        
+
+    }
+
+    public List<IMarca> getMarcasByDniIngeniero(String dni) {
+
+        List<IMarca> marcas = repositorio.getMarcasByDniIngeniero(dni);
+        if (marcas.size() > 0) {
+            return marcas;
+        } else {
+            return new ArrayList<IMarca>();
+        }
+
     }
 
     public List<IPrototipo> getPrototipoByIdIngeniero(Long id) {
-    
+
         List<IPrototipo> prototipos = repositorio.getPrototipoByIdIngeniero(id);
-         
-        if(prototipos.size() > 0) {
+
+        if (prototipos.size() > 0) {
             return prototipos;
         } else {
             return new ArrayList<IPrototipo>();
         }
-        
-        
+
     }
 
- 
+    public List<IPrototipo> getPrototipoByDniIngeniero(String dni) {
+        List<IPrototipo> prototipos = repositorio.getPrototipoByDniIngeniero(dni);
+
+        if (prototipos.size() > 0) {
+            return prototipos;
+        } else {
+            return new ArrayList<IPrototipo>();
+        }
+    }
+
+    @Transactional
+    public Ingeniero addIngenieroPrototipo(Long id_ingeniero, Long id_prototipo) {
+
+        Optional<Ingeniero> ingeniero = repositorio.findById(id_ingeniero);
+        Optional<Prototipo> prototipo = repositorioPrototipo.findById(id_prototipo);
+
+        if (prototipo.isPresent()) {
+            if (ingeniero.isPresent()) {
+                Ingeniero ingenieroEditado = ingeniero.get();
+                Prototipo prototipo1Editado = prototipo.get();
+                ingenieroEditado.addPrototio(prototipo1Editado);
+                return ingenieroEditado;
+            } else {
+                throw new RecordNotFoundException("ingeniero not found", id_prototipo);
+            }
+
+        } else {
+            throw new RecordNotFoundException("prototipo not found", id_prototipo);
+        }
+    }
     
+    @Transactional
+    public Ingeniero removePrototipoByIdIngeniero(Long id_ingeniero, Long id_prototipo) {
+        Optional<Ingeniero> ingeniero = repositorio.findById(id_ingeniero);
+        Optional<Prototipo> prototipo = repositorioPrototipo.findById(id_prototipo);
+
+        if (prototipo.isPresent()) {
+            if (ingeniero.isPresent()) {
+                Ingeniero ingenieroEditado = ingeniero.get();
+                Prototipo prototipo1Editado = prototipo.get();
+                
+                ingenieroEditado.removePrototipo(prototipo1Editado);
+                
+                
+                return ingenieroEditado;
+            } else {
+                throw new RecordNotFoundException("ingeniero not found", id_prototipo);
+            }
+
+        } else {
+            throw new RecordNotFoundException("prototipo not found", id_prototipo);
+        }
+    }
 
 }
-
-    
-    
-    
-   
-    
-

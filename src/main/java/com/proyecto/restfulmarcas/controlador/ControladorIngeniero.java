@@ -61,9 +61,17 @@ public class ControladorIngeniero {
         return new ResponseEntity<Ingeniero>(entity, new HttpHeaders(), HttpStatus.OK);
     }
 
-    @PostMapping
-    public ResponseEntity<Ingeniero> createIngeniero(@Valid @RequestBody Ingeniero myIngeniero) {
-        Ingeniero created = servicio.createIngeniero(myIngeniero);
+    @PostMapping("/nuevoIngeniero/{id_marca}")
+    public ResponseEntity<Ingeniero> createIngeniero(@PathVariable("id_marca") Long id_marca, @Valid @RequestBody Ingeniero myIngeniero) {
+        Ingeniero created = servicio.createIngeniero(id_marca, myIngeniero);
+        return new ResponseEntity<Ingeniero>(created, new HttpHeaders(), HttpStatus.OK);
+    }
+    
+    @PutMapping("/agregarPrototipo/{id_ingeniero}/{id_prototipo}")
+    public ResponseEntity<Ingeniero> addIngenieroPrototipo(@PathVariable("id_prototipo") Long id_prototipo,
+            @PathVariable("id_ingeniero") Long id_ingeniero ,
+            @Valid @RequestBody Ingeniero myIngeniero) {
+        Ingeniero created = servicio.addIngenieroPrototipo(id_ingeniero, id_prototipo);
         return new ResponseEntity<Ingeniero>(created, new HttpHeaders(), HttpStatus.OK);
     }
 
@@ -81,22 +89,34 @@ public class ControladorIngeniero {
         return HttpStatus.ACCEPTED;
     }
     
+  
+     @PutMapping("borrarPrototipoIngeniero/{id_ingeniero}/{id_prototipo}")
+        public ResponseEntity<Ingeniero>   removePrototipoByIdIngeniero(@PathVariable("id_prototipo") Long id_prototipo,
+            @PathVariable("id_ingeniero") Long id_ingeniero ,
+            @Valid @RequestBody Ingeniero myIngeniero) {
+        Ingeniero created = servicio.removePrototipoByIdIngeniero(id_ingeniero, id_prototipo);
+        return new ResponseEntity<Ingeniero>(created, new HttpHeaders(), HttpStatus.OK);
+    }       
+            
+
     
-    @GetMapping("/buscarnombre/{nombre}")
+    
+    
+    
+    
+    @GetMapping("/buscarIngenerioPorNombre/{nombre}")
     public ResponseEntity<List<Ingeniero>> getIngenieroByName(@PathVariable("nombre") String nombre) {
     	List<Ingeniero> list = servicio.getIngenieroByName(nombre);
  
         return new ResponseEntity<List<Ingeniero>>(list, new HttpHeaders(), HttpStatus.OK);
     }
     
-    @GetMapping("/buscardni/{dni}")
+    @GetMapping("/buscarIngenieroPorDni/{dni}")
     public ResponseEntity<List<Ingeniero>> getIngenieroByDNI(@PathVariable("dni") String dni) {
     	List<Ingeniero> list = servicio.getIngenieroByDNI(dni);
  
         return new ResponseEntity<List<Ingeniero>>(list, new HttpHeaders(), HttpStatus.OK);
     }
-    
-    
 
     @GetMapping("/marcaTrabajaPorId/{id}")
     public ResponseEntity<List<IMarca>> getMarcasByIdIngeniero(@PathVariable("id") Long id) {
@@ -104,16 +124,30 @@ public class ControladorIngeniero {
         return new ResponseEntity<List<IMarca>>(list, new HttpHeaders(), HttpStatus.OK);
     }
     
-    
-    
-    @GetMapping("/prototipoIngeniroPorId/{id}")
+     @GetMapping("/marcaTrabajaPorDni/{dni}")
+        public ResponseEntity<List<IMarca>> getMarcasByIdIngeniero(@PathVariable("dni") String dni) {
+        List<IMarca> list = servicio.getMarcasByDniIngeniero(dni);
+        return new ResponseEntity<List<IMarca>>(list, new HttpHeaders(), HttpStatus.OK);
+    }
+
+    @GetMapping("/prototiposIngeniroPorId/{id}")
     public ResponseEntity<List<IPrototipo>> getPrototipoByIdIngeniero(@PathVariable("id") Long id) {
     	List<IPrototipo> list = servicio.getPrototipoByIdIngeniero(id);
         return new ResponseEntity<List<IPrototipo>>(list, new HttpHeaders(), HttpStatus.OK);
     }
     
+    @GetMapping("/prototiposIngeniroPorDni/{dni}")
+    public ResponseEntity<List<IPrototipo>> getPrototipoByDniIngeniero(@PathVariable("dni") String dni) {
+    	List<IPrototipo> list = servicio.getPrototipoByDniIngeniero(dni);
+        return new ResponseEntity<List<IPrototipo>>(list, new HttpHeaders(), HttpStatus.OK);
+    }
     
     
+  
+
+    
+    
+   
   
 
 }

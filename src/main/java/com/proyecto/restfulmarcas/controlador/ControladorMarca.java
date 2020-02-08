@@ -82,13 +82,13 @@ public class ControladorMarca {
         return HttpStatus.ACCEPTED;
     }
     
-    @GetMapping("/bucarIngenierosPorIdmarca/{id}")
+    @GetMapping("/ingenierosPorIdmarca/{id}")
     public ResponseEntity<List<IIngeniero>> getMarcasByIdIngeniero(@PathVariable("id") Long id) {
     	List<IIngeniero> list = servicio.getIngenierosByIdMarca(id);
         return new ResponseEntity<List<IIngeniero>>(list, new HttpHeaders(), HttpStatus.OK);
     }
     
-    @GetMapping("/buscarIngenierosPormarca/{nombreMarca}")
+    @GetMapping("/ingenierosPormarca/{nombreMarca}")
     public ResponseEntity<List<IIngeniero>> getMarcasByIdIngeniero(@PathVariable("nombreMarca") String nombreMarca) {
     	List<IIngeniero> list = servicio.getIngenierosByNameMarca(nombreMarca);
         return new ResponseEntity<List<IIngeniero>>(list, new HttpHeaders(), HttpStatus.OK);

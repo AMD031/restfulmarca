@@ -6,6 +6,10 @@
 package com.proyecto.restfulmarcas.modelo;
 
 import com.fasterxml.jackson.annotation.JsonBackReference;
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
+import com.fasterxml.jackson.annotation.JsonManagedReference;
+import java.util.HashSet;
+import java.util.Objects;
 import java.util.Set;
 import javax.persistence.Column;
 import javax.persistence.Entity;
@@ -27,7 +31,7 @@ import javax.validation.constraints.NotBlank;
 public class Prototipo {
   
    @Id
-   @Column(name = "id_prototipo")
+   @Column(name = "id_prototipo", updatable = false, nullable = false)
    @GeneratedValue(strategy = GenerationType.IDENTITY)
    private Long id_prototipo;
    
@@ -41,8 +45,8 @@ public class Prototipo {
      
   
    @ManyToMany(mappedBy = "prototipos", fetch = FetchType.LAZY)      
-   @JsonBackReference            
-   Set<Ingeniero>ingenieros ;
+   @JsonIgnoreProperties("prototipos")        
+   Set<Ingeniero>ingenieros = new HashSet<>();
 
     public Long getId_prototipo() {
         return id_prototipo;
@@ -77,8 +81,57 @@ public class Prototipo {
     }
 
    
+     public void addIngeniero(Ingeniero ingeniero) {
+        if (this.ingenieros == null) {
+            this.ingenieros = new HashSet<>();
+        }
+        this.ingenieros.add(ingeniero);
+        ingeniero.getPrototipos().add(this);
+    }
+
+    public void removeIngeniero(Ingeniero ingeniero) {
+        if (this.ingenieros == null) {
+            this.ingenieros = new HashSet<>();
+        }
+        this.ingenieros.remove(ingeniero);
+        ingeniero.getPrototipos().remove(this);
+    }
+
+    @Override
+    public int hashCode() {
+        int hash = 7;
+        hash = 89 * hash + Objects.hashCode(this.id_prototipo);
+        hash = 89 * hash + Objects.hashCode(this.nombreClave);
+        hash = 89 * hash + Objects.hashCode(this.descripcion);
+        return hash;
+    }
+
+    @Override
+    public boolean equals(Object obj) {
+        if (this == obj) {
+            return true;
+        }
+        if (obj == null) {
+            return false;
+        }
+        if (getClass() != obj.getClass()) {
+            return false;
+        }
+        final Prototipo other = (Prototipo) obj;
+        if (!Objects.equals(this.nombreClave, other.nombreClave)) {
+            return false;
+        }
+        if (!Objects.equals(this.descripcion, other.descripcion)) {
+            return false;
+        }
+        if (!Objects.equals(this.id_prototipo, other.id_prototipo)) {
+            return false;
+        }
+        return true;
+    }
    
    
-   
+    
+    
     
 }

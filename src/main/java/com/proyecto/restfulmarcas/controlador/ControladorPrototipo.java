@@ -10,6 +10,8 @@ package com.proyecto.restfulmarcas.controlador;
  * @author Samuel Hermosilla Aguilera
  */
 import com.proyecto.restfulmarcas.excepcion.RecordNotFoundException;
+import com.proyecto.restfulmarcas.interfaces.IIngeniero;
+import com.proyecto.restfulmarcas.modelo.Ingeniero;
 import com.proyecto.restfulmarcas.modelo.Prototipo;
 import com.proyecto.restfulmarcas.modelo.Marca;
 import com.proyecto.restfulmarcas.servicio.ServicioIngeniero;
@@ -84,24 +86,24 @@ public class ControladorPrototipo {
         return new ResponseEntity<List<Prototipo>>(list, new HttpHeaders(), HttpStatus.OK);
     }
     
+     @GetMapping("/ingenierosPrototiposPorId/{id}")
+     public ResponseEntity<List<IIngeniero>> getIngenierosByIdPrototipo(@PathVariable("id") Long id) {
+    	List<IIngeniero> list = servicio.getIngenierosByIdPrototipo(id);
+        return new ResponseEntity<List<IIngeniero>>(list, new HttpHeaders(), HttpStatus.OK);
+    }
+     
+     
+     @GetMapping("/ingenierosPrototiposPorNombreClave/{nombreClave}")
+     public ResponseEntity<List<IIngeniero>> getIngenierosByNombreClavePrototipo(@PathVariable("nombreClave") String nombreClave) {
+    	List<IIngeniero> list = servicio.getIngenierosByNombreClavePrototipo(nombreClave);
+        return new ResponseEntity<List<IIngeniero>>(list, new HttpHeaders(), HttpStatus.OK);
+    } 
+    
+    
+    
    
     
-    
-    
-    /*
-    @GetMapping("/buscardni/{dni}")
-    public ResponseEntity<List<Prototipo>> getPrototipoByDNI(@PathVariable("dni") String dni) {
-    	List<Prototipo> list = servicio.getPrototipoByDNI(dni);
- 
-        return new ResponseEntity<List<Prototipo>>(list, new HttpHeaders(), HttpStatus.OK);
-    }
-    
-    @GetMapping("/marcas/{id}")
-    public ResponseEntity<List<Marca>> getMarcasByIdPrototipo(@PathVariable("id") Long id) {
-    	List<Marca> list = servicio.getMarcasByIdPrototipo(id);
-        return new ResponseEntity<List<Marca>>(list, new HttpHeaders(), HttpStatus.OK);
-    }
-    */
+
     
     
 

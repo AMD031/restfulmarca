@@ -1,6 +1,7 @@
 package com.proyecto.restfulmarcas.servicio;
 
 import com.proyecto.restfulmarcas.excepcion.RecordNotFoundException;
+import com.proyecto.restfulmarcas.interfaces.IIngeniero;
 import com.proyecto.restfulmarcas.interfaces.IMarca;
 import com.proyecto.restfulmarcas.modelo.Ingeniero;
 import com.proyecto.restfulmarcas.modelo.Prototipo;
@@ -101,5 +102,26 @@ public class ServicioPrototipo {
         
         
     }
+
+    public List<IIngeniero> getIngenierosByIdPrototipo(Long id) {
+        List<IIngeniero> ingenieros= repositorio.getIngenieroByIdPrototipo(id);         
+        if(ingenieros.size() > 0) {
+            return ingenieros;
+        } else {
+            return new ArrayList<IIngeniero>();
+        }
+    }
+
+    public List<IIngeniero> getIngenierosByNombreClavePrototipo(String nombreClave) {
+        List<IIngeniero> ingenieros= repositorio.getIngenierosByNombreClavePrototipo(nombreClave);         
+        if(ingenieros.size() > 0) {
+            return ingenieros;
+        } else {
+            return new ArrayList<IIngeniero>();
+        }
+  
+    }
+
+
 
 }

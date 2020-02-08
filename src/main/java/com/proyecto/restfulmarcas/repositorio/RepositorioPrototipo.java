@@ -5,6 +5,7 @@
  */
 package com.proyecto.restfulmarcas.repositorio;
 
+import com.proyecto.restfulmarcas.interfaces.IIngeniero;
 import com.proyecto.restfulmarcas.modelo.Prototipo;
 import org.springframework.data.jpa.repository.JpaRepository;
 
@@ -23,5 +24,16 @@ public interface RepositorioPrototipo
     
     @Query(value = "SELECT * FROM prototipo AS p WHERE p.nombreClave LIKE %?1%", nativeQuery = true)
     public List<Prototipo> getPrototipoByName(String nombre);
+
+    @Query(value = "SELECT i.id_ingeniero, i.nombre, i.dni FROM prototipo p INNER JOIN ingeniero_prototipo ip on p.id_prototipo = ip.id_prototipo_fk INNER JOIN ingeniero i on i.id_ingeniero = ip.id_ingeniero_fk WHERE p.id_prototipo = ?", nativeQuery = true)
+    public List<IIngeniero> getIngenieroByIdPrototipo(Long id);
+
+    @Query(value = "SELECT i.id_ingeniero, i.nombre, i.dni FROM prototipo p INNER JOIN ingeniero_prototipo ip on p.id_prototipo = ip.id_prototipo_fk INNER JOIN\n" +
+    "ingeniero i on i.id_ingeniero = ip.id_ingeniero_fk WHERE p.nombreClave like %?1%", nativeQuery = true)
+    public List<IIngeniero> getIngenierosByNombreClavePrototipo(String nombreClave);
+
+    
+    
+    
     
 }
