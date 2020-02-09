@@ -2,17 +2,9 @@ package com.proyecto.restfulmarcas.servicio;
 
 import com.proyecto.restfulmarcas.excepcion.RecordNotFoundException;
 import com.proyecto.restfulmarcas.interfaces.IIngeniero;
-import com.proyecto.restfulmarcas.interfaces.IMarca;
-import com.proyecto.restfulmarcas.modelo.Ingeniero;
-import com.proyecto.restfulmarcas.modelo.Prototipo;
 import com.proyecto.restfulmarcas.modelo.Prototipo;
 import com.proyecto.restfulmarcas.repositorio.RepositorioIngeniero;
 
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Optional;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Service;
 
 /**
  *
@@ -25,6 +17,7 @@ import java.util.Optional;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import com.proyecto.restfulmarcas.repositorio.RepositorioPrototipo;
+import org.springframework.transaction.annotation.Transactional;
 
 @Service
 public class ServicioPrototipo {
@@ -54,12 +47,19 @@ public class ServicioPrototipo {
             throw new RecordNotFoundException("No prototipo record exist for given id", id);
         }
     }
-
-    public Prototipo createPrototipo(Prototipo entity) {
+    
+    @Transactional(rollbackFor = Exception.class)
+    public Prototipo createPrototipo(Prototipo entity) throws Exception {
+        
         entity = repositorio.save(entity);
+        if(entity==null){
+          throw new Exception();
+        }
+       
         return entity;
     }
 
+    @Transactional(rollbackFor = Exception.class)
     public Prototipo UpdatePrototipo(Prototipo entity) throws RecordNotFoundException {
 
         if (entity.getId_prototipo()!= null) {
@@ -81,10 +81,13 @@ public class ServicioPrototipo {
         }
     }
 
+    @Transactional(rollbackFor = Exception.class)
     public void deletePrototipoById(Long id) throws RecordNotFoundException {
         Optional<Prototipo> prototipo = repositorio.findById(id);
 
         if (prototipo.isPresent()) {
+            Prototipo p = prototipo.get();
+            p.removeIngenieros();
             repositorio.deleteById(id);
         } else {
             throw new RecordNotFoundException("No prototipo record exist for given id", id);
@@ -119,7 +122,6 @@ public class ServicioPrototipo {
         } else {
             return new ArrayList<IIngeniero>();
         }
-  
     }
 
 

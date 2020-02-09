@@ -12,12 +12,14 @@ package com.proyecto.restfulmarcas.controlador;
 import com.proyecto.restfulmarcas.excepcion.RecordNotFoundException;
 import com.proyecto.restfulmarcas.interfaces.IIngeniero;
 import com.proyecto.restfulmarcas.interfaces.IMarca;
+import com.proyecto.restfulmarcas.modelo.Ingeniero;
 import com.proyecto.restfulmarcas.modelo.Marca;
 import com.proyecto.restfulmarcas.modelo.Marca;
 import com.proyecto.restfulmarcas.repositorio.RepositorioIngeniero;
 import com.proyecto.restfulmarcas.repositorio.RepositorioMarca;
 import com.proyecto.restfulmarcas.servicio.ServicioIngeniero;
 import com.proyecto.restfulmarcas.servicio.ServicioMarca;
+import com.proyecto.restfulmarcas.servicio.ServicioPrototipo;
 import java.awt.print.Pageable;
 import java.util.List;
 
@@ -47,7 +49,9 @@ public class ControladorMarca {
 
    @Autowired
     ServicioIngeniero ingeniero;
- 
+  
+   @Autowired
+   ServicioPrototipo prototipo;
    
    
     @GetMapping
@@ -88,11 +92,13 @@ public class ControladorMarca {
         return new ResponseEntity<List<IIngeniero>>(list, new HttpHeaders(), HttpStatus.OK);
     }
     
-    @GetMapping("/ingenierosPormarca/{nombreMarca}")
+    @GetMapping("/ingenierosPorNombreMarca/{nombreMarca}")
     public ResponseEntity<List<IIngeniero>> getMarcasByIdIngeniero(@PathVariable("nombreMarca") String nombreMarca) {
     	List<IIngeniero> list = servicio.getIngenierosByNameMarca(nombreMarca);
         return new ResponseEntity<List<IIngeniero>>(list, new HttpHeaders(), HttpStatus.OK);
     }
+    
+   
     
     
     

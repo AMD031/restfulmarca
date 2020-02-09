@@ -59,7 +59,7 @@ public class ControladorPrototipo {
     }
 
     @PostMapping
-    public ResponseEntity<Prototipo> createPrototipo(@Valid @RequestBody Prototipo myPrototipo) {
+    public ResponseEntity<Prototipo> createPrototipo(@Valid @RequestBody Prototipo myPrototipo) throws Exception {
         Prototipo created = servicio.createPrototipo(myPrototipo);
         return new ResponseEntity<Prototipo>(created, new HttpHeaders(), HttpStatus.OK);
     }

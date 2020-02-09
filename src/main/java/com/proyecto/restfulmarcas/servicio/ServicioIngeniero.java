@@ -27,16 +27,16 @@ import java.util.List;
 import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.transaction.annotation.Transactional;
 import org.springframework.stereotype.Service;
 import com.proyecto.restfulmarcas.repositorio.RepositorioIngeniero;
 import com.proyecto.restfulmarcas.repositorio.RepositorioMarca;
 import com.proyecto.restfulmarcas.repositorio.RepositorioPrototipo;
 import java.sql.Time;
-import javax.transaction.Transactional;
 import org.omg.CORBA.TIMEOUT;
 
 @Service
-public class ServicioIngeniero {
+public class ServicioIngeniero{
 
     @Autowired
     RepositorioIngeniero repositorio;
@@ -46,10 +46,10 @@ public class ServicioIngeniero {
 
     @Autowired
     RepositorioMarca repositorioMarca;
-
     public List<Ingeniero> getAllIngenieros() {
+    
         List<Ingeniero> ingenieroList = repositorio.findAll();
-
+      
         if (ingenieroList.size() > 0) {
             return ingenieroList;
         } else {
@@ -72,8 +72,8 @@ public class ServicioIngeniero {
 //        return entity;
 //    }
 //    
-    @Transactional()
-    public Ingeniero createIngeniero(Long id_marca, Ingeniero entity) {
+    @Transactional(rollbackFor = Exception.class)
+    public Ingeniero createIngeniero(Long id_marca, Ingeniero entity)throws RecordNotFoundException {
         Optional<Marca> marca = repositorioMarca.findById(id_marca);
         if (marca.isPresent()) {
             Marca marcaEditada = marca.get();
@@ -86,6 +86,7 @@ public class ServicioIngeniero {
         }
     }
 
+    @Transactional(rollbackFor = Exception.class)
     public Ingeniero UpdateIngeniero(Ingeniero entity) throws RecordNotFoundException {
 
         if (entity.getId_ingeniero() != null) {
@@ -107,10 +108,13 @@ public class ServicioIngeniero {
         }
     }
 
+    
+    @Transactional(rollbackFor = Exception.class)
     public void deleteIngenieroById(Long id) throws RecordNotFoundException {
         Optional<Ingeniero> ingeniero = repositorio.findById(id);
-
         if (ingeniero.isPresent()) {
+           Ingeniero i = ingeniero.get();
+            i.removePrototipos();
             repositorio.deleteById(id);
         } else {
             throw new RecordNotFoundException("No ingeniero record exist for given id", id);
@@ -182,7 +186,7 @@ public class ServicioIngeniero {
         }
     }
 
-    @Transactional
+    @Transactional(rollbackFor = Exception.class)
     public Ingeniero addIngenieroPrototipo(Long id_ingeniero, Long id_prototipo) {
 
         Optional<Ingeniero> ingeniero = repositorio.findById(id_ingeniero);
@@ -195,7 +199,7 @@ public class ServicioIngeniero {
                 ingenieroEditado.addPrototio(prototipo1Editado);
                 return ingenieroEditado;
             } else {
-                throw new RecordNotFoundException("ingeniero not found", id_prototipo);
+                throw new RecordNotFoundException("ingeniero not found", id_ingeniero);
             }
 
         } else {
@@ -203,7 +207,7 @@ public class ServicioIngeniero {
         }
     }
     
-    @Transactional
+    @Transactional(rollbackFor = Exception.class)
     public Ingeniero removePrototipoByIdIngeniero(Long id_ingeniero, Long id_prototipo) {
         Optional<Ingeniero> ingeniero = repositorio.findById(id_ingeniero);
         Optional<Prototipo> prototipo = repositorioPrototipo.findById(id_prototipo);
@@ -212,11 +216,8 @@ public class ServicioIngeniero {
             if (ingeniero.isPresent()) {
                 Ingeniero ingenieroEditado = ingeniero.get();
                 Prototipo prototipo1Editado = prototipo.get();
-                
                 ingenieroEditado.removePrototipo(prototipo1Editado);
-                
-                
-                return ingenieroEditado;
+                 return ingenieroEditado;
             } else {
                 throw new RecordNotFoundException("ingeniero not found", id_prototipo);
             }

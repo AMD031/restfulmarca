@@ -9,14 +9,9 @@ import com.proyecto.restfulmarcas.excepcion.RecordNotFoundException;
 import com.proyecto.restfulmarcas.interfaces.IIngeniero;
 import com.proyecto.restfulmarcas.modelo.Ingeniero;
 import com.proyecto.restfulmarcas.modelo.Marca;
-import com.proyecto.restfulmarcas.modelo.Marca;
+import com.proyecto.restfulmarcas.modelo.Prototipo;
 import com.proyecto.restfulmarcas.repositorio.RepositorioIngeniero;
-
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Optional; 
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 /**
  *
@@ -29,9 +24,8 @@ import java.util.Optional;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import com.proyecto.restfulmarcas.repositorio.RepositorioMarca;
-import org.springframework.http.HttpHeaders;
-import org.springframework.http.HttpStatus;
-import org.springframework.http.ResponseEntity;
+import com.proyecto.restfulmarcas.repositorio.RepositorioPrototipo;
+import java.util.Set;
 
 @Service
 public class ServicioMarca {
@@ -39,9 +33,11 @@ public class ServicioMarca {
   @Autowired
   RepositorioMarca repositorio;
 
-  
   @Autowired
   RepositorioIngeniero repositorioIngeniero;
+  
+  @Autowired
+  RepositorioPrototipo repositorioPrototipo;
   
 
           
@@ -66,10 +62,17 @@ public class ServicioMarca {
             throw new RecordNotFoundException("No marca record exist for given id",id);
         }
     }
-    public Marca createMarca(Marca entity){
+    
+    @Transactional(rollbackFor = Exception.class)
+    public Marca createMarca(Marca entity) throws Exception{
         entity = repositorio.save(entity);
+        if(entity ==null){
+           throw new Exception("no se pudeo crear");
+        }
         return entity;
     }
+    
+    @Transactional(rollbackFor = Exception.class)
     public Marca UpdateMarca(Marca entity) throws RecordNotFoundException
     {
     	    	
@@ -93,13 +96,20 @@ public class ServicioMarca {
     		throw new RecordNotFoundException("No id of marca given",0l);
     	}	    
  }
-     
+   @Transactional(rollbackFor = Exception.class)
     public void deleteMarcaById(Long id) throws RecordNotFoundException
     {
         Optional<Marca> marca = repositorio.findById(id);
          
         if(marca.isPresent())
         {
+           Marca m = marca.get();
+           Set<Ingeniero> ingenieros =  m.getIngenieros();
+           for (Ingeniero ingeniero : ingenieros) {
+               for(Prototipo p : ingeniero.getPrototipos()){
+                  repositorioPrototipo.delete(p);
+               }
+            }
             repositorio.deleteById(id);
         } else {
             throw new RecordNotFoundException("No marca record exist for given id",id);
@@ -130,15 +140,18 @@ public class ServicioMarca {
         
         
     }
+  
+    
+    
+    
+    
+   }
 
   
 
     
     
 
-    
-
-}
 
     
     

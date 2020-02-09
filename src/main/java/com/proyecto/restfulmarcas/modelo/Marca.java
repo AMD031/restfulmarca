@@ -92,7 +92,7 @@ public class Marca {
     }
 
       
-    public void removeProto(Ingeniero ingeniero) {
+    public void removeIngeniero(Ingeniero ingeniero) {
         if (this.ingenieros == null) {
             this.ingenieros = new HashSet<>();
         }

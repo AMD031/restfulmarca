@@ -9,6 +9,7 @@ import com.fasterxml.jackson.annotation.JsonBackReference;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.fasterxml.jackson.annotation.JsonManagedReference;
 import java.util.HashSet;
+import java.util.Iterator;
 import java.util.Objects;
 import java.util.Set;
 import javax.persistence.Column;
@@ -97,6 +98,17 @@ public class Prototipo {
         ingeniero.getPrototipos().remove(this);
     }
 
+        public void removeIngenieros() {
+        Iterator<Ingeniero> iterator = this.ingenieros.iterator();
+        while (iterator.hasNext()) {
+            Ingeniero ingeniero = iterator.next();
+           ingeniero.getPrototipos().remove(this);
+           iterator.remove();
+        }
+    }
+    
+    
+    
     @Override
     public int hashCode() {
         int hash = 7;

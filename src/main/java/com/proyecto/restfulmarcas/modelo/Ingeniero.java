@@ -10,6 +10,7 @@ import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.fasterxml.jackson.annotation.JsonManagedReference;
 import java.util.HashSet;
+import java.util.Iterator;
 import java.util.Objects;
 import java.util.Set;
 import javax.persistence.CascadeType;
@@ -165,10 +166,18 @@ public class Ingeniero {
     }
 
     
-    
-    
-    
-    
+        public void removePrototipos() {
+        Iterator<Prototipo> iterator = this.prototipos.iterator();
+
+        while (iterator.hasNext()) {
+            Prototipo prototipo = iterator.next();
+            prototipo.getIngenieros().remove(this);
+            iterator.remove();
+        }
+    }
+
+        
+        
     @Override
     public String toString() {
         return "Ingeniero{" + "id=" + id_ingeniero + ", nombre=" + nombre + ", dni=" + dni + ", marca=" + marca.getId_marca() + '}';
