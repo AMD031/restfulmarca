@@ -8,6 +8,7 @@ package com.proyecto.restfulmarcas.modelo;
 import com.fasterxml.jackson.annotation.JsonBackReference;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.fasterxml.jackson.annotation.JsonManagedReference;
+import java.io.Serializable;
 import java.util.HashSet;
 import java.util.Objects;
 import java.util.Set;
@@ -29,10 +30,9 @@ import javax.validation.constraints.NotBlank;
 
 @Entity
 @Table(name = "marca")
-public class Marca {
+public class Marca  implements Serializable{
+  private static final long serialVersionUID = 1L;
 
-   
-    
     @Id
     @Column(name = "id_marca", updatable = false, nullable = false)
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -48,7 +48,7 @@ public class Marca {
     private String pais;
     
     @OneToMany(mappedBy = "marca", cascade = CascadeType.ALL)       
-    Set<Ingeniero> ingenieros = new HashSet<>();
+    Set<Ingeniero> ingenieros = new HashSet<>();;
     
     public Long getId_marca() {
         return id_marca;

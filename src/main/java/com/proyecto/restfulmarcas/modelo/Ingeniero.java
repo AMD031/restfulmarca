@@ -9,6 +9,7 @@ import com.fasterxml.jackson.annotation.JsonBackReference;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.fasterxml.jackson.annotation.JsonManagedReference;
+import java.io.Serializable;
 import java.util.HashSet;
 import java.util.Iterator;
 import java.util.Objects;
@@ -37,18 +38,18 @@ import org.springframework.core.annotation.AliasFor;
  */
 @Entity
 @Table(name = "ingeniero")
-public class Ingeniero {
-
+public class Ingeniero implements Serializable{
+  private static final long serialVersionUID = 1L;
     @Id
     @Column(name = "id_ingeniero",updatable = false, nullable = false)
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id_ingeniero;
 
-    //@NotBlank
+    @NotBlank
     @Column(name = "nombre", length = 256)
     private String nombre;
 
-    //@NotBlank
+    @NotBlank
     @Column(name = "dni", length = 256)
     private String dni;
 
@@ -61,10 +62,12 @@ public class Ingeniero {
             name = "ingeniero_prototipo",
             joinColumns = @JoinColumn(name = "id_ingeniero_fk"),
             inverseJoinColumns = @JoinColumn(name = "id_prototipo_fk"))
-    @ManyToMany(cascade = CascadeType.ALL, fetch = FetchType.LAZY) 
-    @JsonIgnoreProperties("ingenieros")       
-    Set<Prototipo> prototipos = new HashSet<Prototipo>() ;
-
+   
+   
+    @JsonIgnoreProperties("ingenieros")
+     @ManyToMany(cascade = {CascadeType.PERSIST, CascadeType.MERGE})
+    //@ManyToMany(cascade = CascadeType.ALL, fetch = FetchType.LAZY) 
+    Set<Prototipo> prototipos = new HashSet<>();
     
     public Long getId_ingeniero() {
         return id_ingeniero;

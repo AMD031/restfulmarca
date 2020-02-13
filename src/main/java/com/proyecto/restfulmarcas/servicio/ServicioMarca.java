@@ -140,6 +140,43 @@ public class ServicioMarca {
         
         
     }
+    
+    
+    @Transactional(rollbackFor = Exception.class)
+    public Marca cambiarIngenieroMarca(Long id_marca_nueva, Long id_marca_antigua, Long id_ingeniero) {
+         Optional<Marca> marcaAntigua = repositorio.findById(id_marca_antigua);
+         Optional<Marca> marcaNueva= repositorio.findById(id_marca_nueva);
+         Optional<Ingeniero> ingeniero= repositorioIngeniero.findById(id_ingeniero);
+         
+         if(marcaAntigua.isPresent()){
+            if(marcaNueva.isPresent()){
+              if(ingeniero.isPresent()){
+                  
+                   Marca marcaAntiguaEditada = marcaAntigua.get();
+                   Marca marcaNuevaEditada =    marcaNueva.get();                    
+                   Ingeniero ingenieroEditado = ingeniero.get();
+                   
+                   if(marcaAntiguaEditada.getIngenieros().contains(ingenieroEditado) && 
+                      !marcaNuevaEditada.getIngenieros().contains(ingenieroEditado) ){
+                      
+                       marcaAntiguaEditada.removeIngeniero(ingenieroEditado);
+                       marcaNuevaEditada.addIngeniero(ingenieroEditado);
+                   }
+             
+                   
+                   
+                    return marcaNuevaEditada;
+              }else{
+                  throw new RecordNotFoundException("No ingeniero record exist for given id",id_ingeniero); 
+              }            
+            }else{
+               throw new RecordNotFoundException("No marca nueva record exist for given id",id_marca_nueva); 
+            }
+          }else{
+              throw new RecordNotFoundException("No marca antigua record exist for given id",id_marca_antigua);
+         }
+  
+    }
   
     
     
