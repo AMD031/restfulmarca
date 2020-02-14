@@ -145,7 +145,7 @@ public class ControladorMarca {
     
    
         @ApiOperation(
-            value = "Return: un prototipo con un ingeniero borrado",
+            value = "Return: devuelve una marca con un ingeniero cambiado",
             notes = "Necesita pasarle el id del ingeniero, id de la marca antigua y el id de la nueva marca",
             response = Ingeniero.class,
             responseContainer = "List"
